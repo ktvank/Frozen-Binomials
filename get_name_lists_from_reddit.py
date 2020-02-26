@@ -80,14 +80,14 @@ def process_line(line, name_re):
         'author_flair_text': entry.get('author_flair_text', None),
         'retrieved_on': entry.get('retrieved_on', None),
         'author_flair_css_class': entry.get('author_flair_css_class', None)}
-    text = entry.get('selftext', entry.get('body', ''))
+    text = metadata['text']
     finds = name_re.search(text)
     if finds:
         return metadata
 
 #%%
-#Please place the Reddit post data in a json file as a jsonlist. The comments are often
-#too big to fit in one file, so instead place a series of jsonlists in a folder
+#Please place the Reddit post data in a json file as a json separated by returns. The comments are often
+#too big to fit in one file, so instead place a series of json separted by returns in a folder
 #called 'comments'. This also aids in parallelization.
 def get_paths():
      return ['comments/', 'posts.json']
@@ -138,6 +138,7 @@ def get_all_lists():
             full_lists.extend(l)
     with open('full_metadata_name_lists_comments.json', 'w') as f:
         json.dump(full_lists, f)
+        
     
     
     lists = []        
@@ -163,7 +164,7 @@ def get_all_lists():
 # In[30]:
 
 
-def get_season_lists():
+def get_lists():
     lists, full_lists, name_re = get_all_lists()
     with open('full_metadata_name_lists_posts.json', 'w') as fp:
         json.dump(lists, fp)
@@ -182,7 +183,7 @@ def get_season_lists():
 if __name__ == '__main__':
     
     Path("partial_list/").mkdir(parents=True, exist_ok=True)
-    get_season_lists()
+    get_lists()
     
 
 
